@@ -16,25 +16,11 @@ namespace MercadoLibre.Backend.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddDistributedRedisCache(option =>
-            {
-                option.Configuration = "127.0.0.1";
-                option.InstanceName = "master";
-            });
-
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -45,19 +31,6 @@ namespace MercadoLibre.Backend.Web
             {
                 app.UseExceptionHandler("/error");
             }
-
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
         }
     }
 }
